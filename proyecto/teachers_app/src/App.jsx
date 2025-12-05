@@ -3,15 +3,11 @@ import { Header, Student, AttendanceStats, SearchBar } from "./components/";
 import { initialStudents } from "./data/db";
 
 export default function App() {
-  // Cantidad total de estudiantes
   const totalStudents = initialStudents.length;
+  const [presents, setPresents] = useState(totalStudents);
+  const [absents, setAbsents] = useState(0);
+  const [lates, setLates] = useState(0);
 
-  // Estados para el conteo de asistencias
-  const [presents, setPresents] = useState(totalStudents); // Todos inician como "Present"
-  const [absents, setAbsents] = useState(0); // Ninguno está ausente al inicio
-  const [lates, setLates] = useState(0); // Ninguno está tarde al inicio
-
-  // Función que incrementa "Present"
   const incrementPresents = (prevAttendance) => {
     if (presents < totalStudents && prevAttendance === "Absent") {
       setAbsents((prev) => prev - 1);
@@ -22,7 +18,6 @@ export default function App() {
     }
   };
 
-  // Función que incrementa "Absent"
   const incrementAbsents = (prevAttendance) => {
     if (absents < totalStudents) {
       if (prevAttendance === "Present") {
@@ -37,7 +32,6 @@ export default function App() {
     }
   };
 
-  // Función que incrementa "Late"
   const incrementLates = (prevAttendance) => {
     if (
       prevAttendance === "Absent" &&
@@ -58,7 +52,6 @@ export default function App() {
       <Header />
 
       <main className="p-8">
-        {/* Tarjetas con los totales de asistencia */}
         <div>
           <AttendanceStats
             totalStudents={initialStudents.length}
@@ -67,13 +60,9 @@ export default function App() {
             lates={lates}
           />
         </div>
-
-        {/* Barra de búsqueda */}
         <div className="flex justify-end">
           <SearchBar />
         </div>
-
-        {/* Lista de estudiantes */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 lg:grid-cols-3">
           {initialStudents.map((student) => (
             <Student
